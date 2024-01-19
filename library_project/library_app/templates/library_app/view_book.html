@@ -3,12 +3,31 @@
 {% block title %}{{ book.title }} - Переглянути книгу{% endblock %}
 
 {% block content %}
-  <h2>{{ book.title }}</h2>
-  <p><strong>Author:</strong> {{ book.author }}</p>
-  <p><strong>Genre:</strong> {{ book.genre }}</p>
-  <p><strong>Publication Year:</strong> {{ book.publication_year }}</p>
-  <p><strong>Read Status:</strong> {% if book.read_status %}Read{% else %}Unread{% endif %}</p>
-
-
+  <!-- Добавленный блок с карточками -->
+  <div class="row mb-2">
+    <div class="col-md-6">
+      <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <div class="col p-4 d-flex flex-column position-static">
+          <h2><strong class="d-inline-block mb-2 text-primary-emphasis">{{ book.title }}</strong></h2>
+          <p><strong>Автор:</strong><h3 class="mb-0">{{ book.author }}</h3></p>
+            <p><strong>Жанр:</strong> {{ book.genre }}</p>
+          <div class="mb-1 text-body-secondary"><p><strong>Рік видавництва:</strong>{{ book.release_year }}</p></div>
+          <p><strong>Статус:</strong> <class="card-text mb-auto">{% if book.read_status %}Read{% else %}Unread{% endif %}</p>
+        </div>
+        <div class="col-auto d-none d-lg-block">
+          {% if book.cover_image %}
+            <img src="{{ book.cover_image.url }}" alt="{{ book.title }}" width="200" height="250">
+          {% else %}
+            <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Конец добавленного блока с карточками -->
+  <d>
+    <p></p>
+  </d>
   <a href="{% url 'library_app:book_list' %}" class="btn btn-primary">Повернутись до списку книг</a>
+  
 {% endblock %}
