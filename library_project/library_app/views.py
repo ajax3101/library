@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import Book,Genre,Author
 from .forms import BookForm
 
@@ -9,9 +10,30 @@ from .forms import BookForm
 #     books = Book.objects.all()
 #     dict_obj = {'books':books,}
 #     return render(request, 'library_app/index.html', dict_obj)
+# def book_list(request):
+#     books = Book.objects.all()
+#     return render(request, 'library_app/book_list.html', {'books': books})
 def book_list(request):
-    books = Book.objects.all()
-    return render(request, 'library_app/book_list.html', {'books': books})
+    sort_by = request.GET.get('sort', 'title')
+    order = request.GET.get('order', 'asc')
+
+    if order == 'asc':
+        books = Book.objects.order_by(sort_by)
+    else:
+        books = Book.objects.order_by(f'-{sort_by}')
+
+    paginator = Paginator(books, 20)  # Показывать 20 книг на каждой странице
+    page = request.GET.get('page')
+
+    try:
+        books = paginator.page(page)
+    except PageNotAnInteger:
+        books = paginator.page(1)
+    except EmptyPage:
+        books = paginator.page(paginator.num_pages)
+
+    context = {'books': books}
+    return render(request, 'library_app/book_list.html', context)
 
 def add_book(request):
     if request.method == 'POST':

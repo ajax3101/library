@@ -4,38 +4,110 @@
 
 {% block content %}
 <!-- <img src="{% static 'py_img.png' %}" alt="My Python"> -->
-  <h2>Список книг</h2>
+<div class="container text-center">
+  <div class="row">
+    <div class="col">
+ </div>
+    <div class="col-4">
+      <h2>Список книг</h2>    
+    </div>
+    <div class="col">
+     
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+          </div>
+    <div class="col-4">
+      <form method="get" class="form-inline mb-2">
+        <label class="mr-2">Сортувати за:</label>
+        <select name="sort" class="form-control mr-2">
+          <option value="title">Назвою</option>
+          <option value="author">Автором</option>
+          <option value="genre">Жанром</option>
+          <option value="release_year">Роком видавництва</option>
+        </select>
+        <select name="order" class="form-control mr-2">
+          <option value="asc">Зростання</option>
+          <option value="desc">Спадання</option>
+        </select>
+        <button type="submit" class="btn btn-primary">Сортувати</button>
+      </form>
+      
+    </div>
+    <div class="col">
+      
+    </div>
+  </div>
+  <div class="row">
+    
+    <div class="col-12">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Назва</th>
+            <th scope="col">Автор</th>
+            <th scope="col">Жанр</th>
+            <th scope="col">Рік видавництва</th>
+            <th scope="col">Статус</th>
+            <th scope="col">Дії</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for book in books|slice:":20" %}
+            <tr>
+              <th scope="row">{{ forloop.counter }}</th>
+              <td>{{ book.title }}</td>
+              <td>{{ book.author }}</td>
+              <td>{{ book.genre }}</td>
+              <td>{{ book.release_year }}</td>
+              <td>{{ book.is_read }}</td>
+              <td>
+                <a href="{% url 'library_app:view_book' book.id %}">Перегляд</a>
+                <a href="{% url 'library_app:edit_book' book.id %}">Редагувати</a>
+                <a href="{% url 'library_app:delete_book' book.id %}">Видалити</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    
+  </div>
+  <div class="row">
+    <div class="col">
+      
+    </div>
+    <div class="col-3">
+      <div class="pagination">
+        <span class="step-links">
+            {% if books.has_previous %}
+                <a href="?page=1">&laquo; Перша</a>
+                <a href="?page={{ books.previous_page_number }}">Попередня</a>
+            {% endif %}
+      
+            <span class="current">
+                Сторінка {{ books.number }} з {{ books.paginator.num_pages }}.
+            </span>
+      
+            {% if books.has_next %}
+                <a href="?page={{ books.next_page_number }}">Наступня</a>
+                <a href="?page={{ books.paginator.num_pages }}">Остання &raquo;</a>
+            {% endif %}
+        </span>
+      </div>
+      
+    </div>
+    <div class="col">
+      
+    </div>
 
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Назва</th>
-        <th scope="col">Автор</th>
-        <th scope="col">Жанр</th>
-        <th scope="col">Рік видавництва</th>
-        <th scope="col">Статус</th>
-        <th scope="col">Дії</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for book in books %}
-        <tr>
-          <th scope="row">{{ forloop.counter }}</th>
-          <td>{{ book.title }}</td>
-          <td>{{ book.author }}</td>
-          <td>{{ book.genre }}</td>
-          <td>{{ book.release_year }}</td>
-          <td>{{ book.is_read }}</td>
-          <td>
-            <a href="{% url 'library_app:view_book' book.id %}">Перегляд</a>
-            <a href="{% url 'library_app:edit_book' book.id %}">Редагувати</a>
-            <a href="{% url 'library_app:delete_book' book.id %}">Видалити</a>
-          </td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+  </div>
+  <div><p></p></div>
+  
+</div>
+  
 
   <a href="{% url 'library_app:add_book' %}" class="btn btn-primary">Додати нову книгу</a>
 {% endblock %}
