@@ -62,7 +62,7 @@
               <td>{{ book.author }}</td>
               <td>{{ book.genre }}</td>
               <td>{{ book.release_year }}</td>
-              <td>{{ book.is_read }}</td>
+              <td>{% if book.is_read %}Прочитана{% else %}Не прочитана{% endif %}</td>
               <td>
                 <a href="{% url 'library_app:view_book' book.id %}">Перегляд</a>
                 <a href="{% url 'library_app:edit_book' book.id %}">Редагувати</a>
