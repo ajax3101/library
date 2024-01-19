@@ -6,7 +6,8 @@ class Author(models.Model):
     class Meta:
         verbose_name = 'Автор'
         verbose_name_plural = 'Автори'
-    name = models.CharField(max_length=50, verbose_name = 'Заголовок')
+        ordering = ["name"]
+    name = models.CharField(max_length=50, verbose_name = 'Автор')
 
     def __str__(self):
         return self.name
@@ -15,6 +16,7 @@ class Genre(models.Model):
     class Meta:
         verbose_name = 'Жанр'
         verbose_name_plural = 'Жанри'
+        ordering = ["name"]
     name = models.CharField(max_length=50, verbose_name = 'Заголовок')
 
     def __str__(self):
@@ -24,7 +26,7 @@ class Book(models.Model):
     class Meta:
         verbose_name = 'Книга'
         verbose_name_plural = 'Книги'
-        #ordering = ["-a"]
+        ordering = ["title"]
 
     title = models.CharField(max_length=100, verbose_name = 'Заголовок')
     author = models.ForeignKey(Author, on_delete=models.CASCADE, verbose_name = 'Автор')
