@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Підтвердити видалення{% endblock %}
+
+{% block content %}
+  <h2>Підтвердити видалення</h2>
+  <p>Ви впевнені, що хочете видалити книгу "{{ book.title }}"?</p>
+
+  <form method="post" action="{% url 'library_app:delete_book' book.id %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Видалити</button>
+    <a href="{% url 'library_app:book_list' %}" class="btn btn-secondary">Скасувати</a>
+  </form>
+{% endblock %}

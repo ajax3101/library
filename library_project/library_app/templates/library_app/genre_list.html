@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Перелік жанрів{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <h2 class="my-4">Перелік жанрів</h2>
+
+    <ul class="list-group">
+      {% for genre in genres %}
+        <li class="list-group-item">{{ genre.name }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Add Book{% endblock %}
+
+{% block content %}
+  <h2>Додати нову книгу</h2>
+  <form method="post" class="mt-4">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit" class="btn btn-primary">Додати книгу</button>
+  </form>
+  <a href="{% url 'library_app:book_list' %}" class="btn btn-secondary mt-2">Повернутись до списку книг</a>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Список авторів{% endblock %}
+
+{% block content %}
+  <h2>Список авторів</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Автор</th>
+        <!-- Добавьте другие заголовки столбцов, если необходимо -->
+      </tr>
+    </thead>
+    <tbody>
+      {% for author in authors %}
+        <tr>
+          <th scope="row">{{ forloop.counter }}</th>
+          <td>{{ author.name }}</td>
+          <!-- Замените 'name' на фактическое поле вашей модели Author -->
+          <!-- Добавьте другие ячейки, если необходимо -->
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

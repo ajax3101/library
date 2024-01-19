@@ -3,12 +3,18 @@ from django.db import models
 
 
 class Author(models.Model):
+    class Meta:
+        verbose_name = 'Автор'
+        verbose_name_plural = 'Автори'
     name = models.CharField(max_length=50, verbose_name = 'Заголовок')
 
     def __str__(self):
         return self.name
 
 class Genre(models.Model):
+    class Meta:
+        verbose_name = 'Жанр'
+        verbose_name_plural = 'Жанри'
     name = models.CharField(max_length=50, verbose_name = 'Заголовок')
 
     def __str__(self):
@@ -25,3 +31,6 @@ class Book(models.Model):
     genre = models.ForeignKey(Genre, on_delete=models.CASCADE, verbose_name = 'Жанр')
     release_year = models.PositiveIntegerField(verbose_name = 'Рік видання')
     is_read = models.BooleanField(default=False, verbose_name = 'Чек')
+
+    def __str__(self):
+        return self.title
