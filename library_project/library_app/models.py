@@ -3,20 +3,25 @@ from django.db import models
 
 
 class Author(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, verbose_name = 'Заголовок')
 
     def __str__(self):
         return self.name
 
 class Genre(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, verbose_name = 'Заголовок')
 
     def __str__(self):
         return self.name
 
 class Book(models.Model):
-    title = models.CharField(max_length=100)
-    author = models.ForeignKey(Author, on_delete=models.CASCADE)
-    genre = models.ForeignKey(Genre, on_delete=models.CASCADE)
-    release_year = models.PositiveIntegerField()
-    is_read = models.BooleanField(default=False)
+    class Meta:
+        verbose_name = 'Книга'
+        verbose_name_plural = 'Книги'
+        #ordering = ["-a"]
+
+    title = models.CharField(max_length=100, verbose_name = 'Заголовок')
+    author = models.ForeignKey(Author, on_delete=models.CASCADE, verbose_name = 'Автор')
+    genre = models.ForeignKey(Genre, on_delete=models.CASCADE, verbose_name = 'Жанр')
+    release_year = models.PositiveIntegerField(verbose_name = 'Рік видання')
+    is_read = models.BooleanField(default=False, verbose_name = 'Чек')

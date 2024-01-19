@@ -4,8 +4,8 @@ from . import views
 app_name = 'library_app'
 
 urlpatterns = [
-    path('', views.book_list, name='book_list'),
-    path("admin/", admin.site.urls),
+    path('', views.index, name="index"),
+    #path('', views.book_list, name='book_list'),
     #path('book/add/', views.add_book, name='add_book'),
     #path('book/<int:book_id>/', views.view_book, name='view_book'),
     #path('book/<int:book_id>/edit/', views.edit_book, name='edit_book'),
