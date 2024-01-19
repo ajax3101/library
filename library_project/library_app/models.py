@@ -7,7 +7,7 @@ class Author(models.Model):
         verbose_name = 'Автор'
         verbose_name_plural = 'Автори'
         ordering = ["name"]
-    name = models.CharField(max_length=50, verbose_name = 'Автор')
+    name = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
         return self.name
@@ -33,6 +33,7 @@ class Book(models.Model):
     genre = models.ForeignKey(Genre, on_delete=models.CASCADE, verbose_name = 'Жанр')
     release_year = models.PositiveIntegerField(verbose_name = 'Рік видання')
     is_read = models.BooleanField(default=False, verbose_name = 'Чек')
+    img = models.ImageField(upload_to='book_images/', blank=True, null=True)
 
     def __str__(self):
         return self.title

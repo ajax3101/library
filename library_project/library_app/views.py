@@ -3,8 +3,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Book,Genre,Author
 from .forms import BookForm
 
-def index(request):
-    return render(request, 'library_app/index.html')
+# def index(request):
+    # return render(request, 'library_app/index.html')
 # def index(request):
 #     books = Book.objects.all()
 #     dict_obj = {'books':books,}
