@@ -38,8 +38,16 @@
             <!-- Add more navigation items as needed -->
         </ul>
     </div>
+    <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+        <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search">
+      </form>
+
+      <div class="text-end">
+        <a class="btn btn-outline-light me-2" href="{% url 'library_app:login' %}">Login</a>
+        <a class="btn btn-warning" href="{% url 'library_app:register' %}">Sign-up</a>
+      </div>
 </nav>
-<!-- <img src="{% static 'py_img.png' %}" alt="My Python"> -->
+
 <div class="container mt-4">
     {% block content %}{% endblock %}
 </div>

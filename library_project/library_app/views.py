@@ -1,6 +1,10 @@
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib.auth.forms import UserCreationForm
+from django.views.generic.edit import CreateView
+from django.urls import reverse_lazy
+from django.contrib.auth.decorators import login_required
 from django.db.models import Count, Avg
 from django.db.models import Q
 from matplotlib import pyplot as plt
@@ -117,6 +121,20 @@ def genre_list(request):
 #         books = Book.objects.all()
 
 #     return render(request, 'library_app/book_search.html', {'books': books, 'query': query})
+
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+    else:
+        form = UserCreationForm()
+    return render(request, 'library_app/register.html', {'form': form})
+
+@login_required
+def home(request):
+    return render(request, 'library_app/home.html')
 
 def statistics(request):
     # Статистика за жанрами
