@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Count, Avg
+from django.db.models import Q
 from matplotlib import pyplot as plt
 import io
 import urllib, base64
@@ -103,6 +104,19 @@ def author_list(request):
 def genre_list(request):
     genres = Genre.objects.all()
     return render(request, 'library_app/genre_list.html', {'genres': genres})
+
+# def book_search(request):
+#     query = request.GET.get('q')
+#     if query:
+#         books = Book.objects.filter(
+#             Q(title__icontains=query) |
+#             Q(author__name__icontains=query) |
+#             Q(genre__icontains=query)
+#         ).distinct()
+#     else:
+#         books = Book.objects.all()
+
+#     return render(request, 'library_app/book_search.html', {'books': books, 'query': query})
 
 def statistics(request):
     # Статистика за жанрами

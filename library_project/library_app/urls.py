@@ -1,7 +1,6 @@
 from django.urls import path
 from django.conf.urls.static import static
 from django.conf import settings
-#from .views import book_list, add_book, view_book, edit_book, delete_book, statistics
 from .views import book_list, add_book, view_book, edit_book, delete_book, statistics, stats, update_genre_chart, update_author_chart
 
 from . import views

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Пошук книг{% endblock %}
+
+{% block content %}
+  <h2>Пошук книг</h2>
+
+  <form method="get" action="{% url 'library_app:book_search' %}">
+    {% csrf_token %} 
+    <input type="text" name="q" value="{{ query }}" placeholder="Пошук за назвою, автором чи жанром">
+    <button type="submit">Пошук</button>
+  </form>
+
+  {% if query %}
+    <h3>Результати пошуку для "{{ query }}"</h3>
+  {% endif %}
+
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Назва</th>
+        <th scope="col">Автор</th>
+        <th scope="col">Жанр</th>
+        <th scope="col">Рік видавництва</th>
+        <th scope="col">Статус</th>
+        <th scope="col">Дії</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for book in books %}
+        <tr>
+          <th scope="row">{{ forloop.counter }}</th>
+          <td>{{ book.title }}</td>
+          <td>{{ book.author.name }}</td>
+          <td>{{ book.genre }}</td>
+          <td>{{ book.release_year }}</td>
+          <td>{{ book.is_read }}</td>
+          <td>
+            <a href="{% url 'library_app:view_book' book.id %}">Перегляд</a>
+            <a href="{% url 'library_app:edit_book' book.id %}">Редагувати</a>
+            <a href="{% url 'library_app:delete_book' book.id %}">Видалити</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
