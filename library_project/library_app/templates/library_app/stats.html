@@ -1,0 +1,43 @@
+<!-- library_app/templates/library_app/statistics.html -->
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Статистика_2{% endblock %}
+
+{% block content %}
+  <h2>Статистика на Plotly</h2>
+
+  <div id="genre-chart"></div>
+  <button onclick="updateGenreChart()">Оновити графік за жанрами</button>
+
+  <div id="author-chart"></div>
+  <button onclick="updateAuthorChart()">Оновити графік за авторами</button>
+
+  <!-- Додайте аналогічні блоки для інших графіків -->
+
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script>
+    function updateGenreChart() {
+      $.ajax({
+        url: '{% url "library_app:update_genre_chart" %}',
+        type: 'GET',
+        success: function(data) {
+          $('#genre-chart').html(data.genre_chart_html);
+        }
+      });
+    }
+
+    function updateAuthorChart() {
+      $.ajax({
+        url: '{% url "library_app:update_author_chart" %}',
+        type: 'GET',
+        success: function(data) {
+          $('#author-chart').html(data.author_chart_html);
+        }
+      });
+    }
+
+    // Додайте аналогічні функції для інших графіків
+  </script>
+{% endblock %}

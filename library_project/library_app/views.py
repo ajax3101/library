@@ -1,6 +1,13 @@
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Count, Avg
+from matplotlib import pyplot as plt
+import io
+import urllib, base64
+from django.http import JsonResponse
+from plotly.offline import plot
+import plotly.graph_objs as go
 from .models import Book,Genre,Author
 from .forms import BookForm
 
@@ -80,9 +87,99 @@ def delete_book(request, book_id):
     return render(request, 'library_app/delete_book.html', {'book': book})
 
 def author_list(request):
-    authors = Author.objects.all()
+    authors_list = Author.objects.all()
+    paginator = Paginator(authors_list, 10)  # 10 авторів на сторінці
+
+    page = request.GET.get('page')
+    try:
+        authors = paginator.page(page)
+    except PageNotAnInteger:
+        authors = paginator.page(1)
+    except EmptyPage:
+        authors = paginator.page(paginator.num_pages)
+
     return render(request, 'library_app/author_list.html', {'authors': authors})
 
 def genre_list(request):
     genres = Genre.objects.all()
     return render(request, 'library_app/genre_list.html', {'genres': genres})
+
+def statistics(request):
+    # Статистика за жанрами
+    genres_data = Book.objects.values('genre').annotate(count=Count('genre'))
+    genres_labels = [data['genre'] for data in genres_data]
+    genres_counts = [data['count'] for data in genres_data]
+
+    # Статистика за авторами
+    authors_data = Author.objects.annotate(count=Count('book'))
+    authors_labels = [author.name for author in authors_data]
+    authors_counts = [author.count for author in authors_data]
+
+    # Статистика за прочитаними книгами
+    read_books_count = Book.objects.filter(is_read=True).count()
+    unread_books_count = Book.objects.filter(is_read=False).count()
+
+    # Загальна статистика
+    total_books_count = Book.objects.count()
+    average_age = Book.objects.aggregate(avg_age=Avg('release_year'))
+
+    # Створення графіків
+    fig, ax = plt.subplots()
+    ax.bar(genres_labels, genres_counts)
+    ax.set_title('Статистика за жанрами')
+    ax.set_xlabel('Жанр')
+    ax.set_ylabel('Кількість книг')
+    genres_img = io.BytesIO()
+    plt.savefig(genres_img, format='png')
+    genres_img.seek(0)
+    genres_img_data = base64.b64encode(genres_img.getvalue()).decode()
+
+    fig, ax = plt.subplots()
+    ax.pie(authors_counts, labels=authors_labels, autopct='%1.1f%%')
+    ax.set_title('Статистика за авторами')
+    authors_img = io.BytesIO()
+    plt.savefig(authors_img, format='png')
+    authors_img.seek(0)
+    authors_img_data = base64.b64encode(authors_img.getvalue()).decode()
+
+    fig, ax = plt.subplots()
+    ax.bar(['Прочитано', 'Залишилося'], [read_books_count, unread_books_count])
+    ax.set_title('Статистика за прочитаними книгами')
+    ax.set_ylabel('Кількість книг')
+    read_books_img = io.BytesIO()
+    plt.savefig(read_books_img, format='png')
+    read_books_img.seek(0)
+    read_books_img_data = base64.b64encode(read_books_img.getvalue()).decode()
+
+    context = {
+        'genres_img_data': genres_img_data,
+        'authors_img_data': authors_img_data,
+        'read_books_img_data': read_books_img_data,
+        'total_books_count': total_books_count,
+        'average_age': average_age['avg_age'],
+    }
+
+    return render(request, 'library_app/statistics.html', context)
+
+def stats(request):
+    return render(request, 'library_app/stats.html')
+
+def update_genre_chart(request):
+    genres_data = Book.objects.values('genre').annotate(count=Count('genre'))
+    genres_labels = [data['genre'] for data in genres_data]
+    genres_counts = [data['count'] for data in genres_data]
+
+    genre_chart = go.Figure(data=[go.Bar(x=genres_labels, y=genres_counts)])
+    genre_chart_html = plot(genre_chart, output_type='div', include_plotlyjs=False)
+
+    return JsonResponse({'genre_chart_html': genre_chart_html})
+
+def update_author_chart(request):
+    authors_data = Author.objects.annotate(count=Count('book'))
+    authors_labels = [author.name for author in authors_data]
+    authors_counts = [author.count for author in authors_data]
+
+    author_chart = go.Figure(data=[go.Pie(labels=authors_labels, values=authors_counts)])
+    author_chart_html = plot(author_chart, output_type='div', include_plotlyjs=False)
+
+    return JsonResponse({'author_chart_html': author_chart_html})

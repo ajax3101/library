@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Статистика бібліотеки{% endblock %}
+
+{% block content %}
+  <h2>Статистика бібліотеки на Matplotlib</h2>
+
+  <div>
+    <h3>Статистика за жанрами</h3>
+    <img src="data:image/png;base64,{{ genres_img_data }}" alt="Статистика за жанрами">
+  </div>
+
+  <div>
+    <h3>Статистика за авторами</h3>
+    <img src="data:image/png;base64,{{ authors_img_data }}" alt="Статистика за авторами">
+  </div>
+
+  <div>
+    <h3>Статистика за прочитаними книгами</h3>
+    <img src="data:image/png;base64,{{ read_books_img_data }}" alt="Статистика за прочитаними книгами">
+  </div>
+
+  <div>
+    <h3>Загальна статистика</h3>
+    <p>Загальна кількість книг: {{ total_books_count }}</p>
+    <p>Середній вік книг: {{ average_age }}</p>
+  </div>
+
+  <a href="{% url 'library_app:book_list' %}" class="btn btn-primary">Повернутись до списку книг</a>
+{% endblock %}
