@@ -40,7 +40,7 @@
 First, clone the repository to your local machine:
 
 ```bash
-git clone https://github.com/ajax3101/prozzoro.git
+git clone https://github.com/ajax3101/library.git
 ```
 
 ```bash
