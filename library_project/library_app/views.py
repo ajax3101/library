@@ -107,14 +107,13 @@ def genre_list(request):
     genres = Genre.objects.all()
     return render(request, 'library_app/genre_list.html', {'genres': genres})
 
-# class Search(ListView):
-#     paginate_by = 4
-#     model = Book
-#     template_name = 'library_app/index.html'
-#     context_object_name = 'book'
+def search_view(request):
+    query = request.GET.get('query')
+    results = []
+    if query:
+        results = Book.objects.filter(title__icontains=query) | Book.objects.filter(author__name__icontains=query)
+    return render(request, 'library_app/search.html', {'query': query, 'results': results})
 
-#     def get_queryset(self):
-#         return Book.objects.filter(content__iregex=self.request.GET.get('q'))
 @login_required
 def profile_view(request):
     return render(request, 'library_app/profile.html')

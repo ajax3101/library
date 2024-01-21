@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Результати пошуку{% endblock %}
+
+{% block content %}
+  <h2>Результати пошуку для "{{ query }}"</h2>
+  
+  {% if results %}
+    <ul class="list-group">
+      {% for book in results %}
+        <li class="list-group-item">{{ book.title }} - {{ book.author.name }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>Нічого не знайдено.</p>
+  {% endif %}
+{% endblock %}

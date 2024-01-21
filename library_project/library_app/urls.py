@@ -3,7 +3,7 @@ from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import LoginView, LogoutView
 from django.conf import settings
-from .views import book_list, add_book, profile_view, register_view, view_book, edit_book, delete_book, statistics, stats, update_genre_chart, update_author_chart
+from .views import book_list, add_book, profile_view, register_view, search_view, view_book, edit_book, delete_book, statistics, stats, update_genre_chart, update_author_chart
 from . import views
 
 app_name = 'library_app'
@@ -27,6 +27,7 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('register/', register_view, name='register_view'),
+    path('search/', search_view, name='search_view'),
     #path('author/<int:author_id>/', views.view_author, name='view_author'),
     #path('genre/<int:genre_id>/', views.view_genre, name='view_genre'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
