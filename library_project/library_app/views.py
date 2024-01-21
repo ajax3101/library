@@ -1,15 +1,11 @@
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.contrib.auth.forms import UserCreationForm
-from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count, Avg
-from django.db.models import Q
 from matplotlib import pyplot as plt
-import io
-import urllib, base64
+import io, base64
 from django.http import JsonResponse
 from plotly.offline import plot
 import plotly.graph_objs as go
@@ -109,32 +105,16 @@ def genre_list(request):
     genres = Genre.objects.all()
     return render(request, 'library_app/genre_list.html', {'genres': genres})
 
-# def book_search(request):
-#     query = request.GET.get('q')
-#     if query:
-#         books = Book.objects.filter(
-#             Q(title__icontains=query) |
-#             Q(author__name__icontains=query) |
-#             Q(genre__icontains=query)
-#         ).distinct()
-#     else:
-#         books = Book.objects.all()
+# class Search(ListView):
+#     paginate_by = 4
+#     model = Book
+#     template_name = 'library_app/index.html'
+#     context_object_name = 'book'
 
-#     return render(request, 'library_app/book_search.html', {'books': books, 'query': query})
-
-def register(request):
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('login')
-    else:
-        form = UserCreationForm()
-    return render(request, 'library_app/register.html', {'form': form})
-
-@login_required
-def home(request):
-    return render(request, 'library_app/home.html')
+#     def get_queryset(self):
+#         return Book.objects.filter(content__iregex=self.request.GET.get('q'))
+def profile_view(request):
+    return render(request, 'library_app/profile.html')
 
 def statistics(request):
     # Статистика за жанрами

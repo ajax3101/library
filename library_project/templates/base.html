@@ -34,7 +34,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'library_app:stats' %}">Статистика_2</a>
             </li>
-           
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'library_app:profile' %}">Профіль</a>
+            </li>
             <!-- Add more navigation items as needed -->
         </ul>
     </div>
@@ -43,8 +45,8 @@
       </form>
 
       <div class="text-end">
-        <a class="btn btn-outline-light me-2" href="{% url 'library_app:login' %}">Login</a>
-        <a class="btn btn-warning" href="{% url 'library_app:register' %}">Sign-up</a>
+        <a class="btn btn-outline-light me-2" href="#">Login</a>
+        <a class="btn btn-warning" href="#">Sign-up</a>
       </div>
 </nav>
 
@@ -53,8 +55,8 @@
 </div>
 
 <!-- Bootstrap JS and dependencies -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="{% static 'assets/js/jquery.min.js' %}"></script>
+<script src="{% static 'assets/js/popper.min.js' %}"></script>
 <script src="{% static 'assets/js/bootstrap.js' %}"></script>
 <!-- Add your custom scripts here -->
 

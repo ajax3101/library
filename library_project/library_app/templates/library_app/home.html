@@ -1,8 +1,0 @@
-{% extends 'base.html' %}
-
-{% block title %}Домашня сторінка{% endblock %}
-
-{% block content %}
-  <h2>Вітаємо, {{ user.username }}!</h2>
-  <a href="{% url 'logout' %}">Вийти</a>
-{% endblock %}
