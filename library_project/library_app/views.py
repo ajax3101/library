@@ -3,6 +3,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login
+from django.contrib.auth.forms import UserCreationForm
 from django.db.models import Count, Avg
 from matplotlib import pyplot as plt
 import io, base64
@@ -10,7 +12,7 @@ from django.http import JsonResponse
 from plotly.offline import plot
 import plotly.graph_objs as go
 from .models import Book,Genre,Author
-from .forms import BookForm
+from .forms import BookForm, SignUpForm
 
 # def index(request):
     # return render(request, 'library_app/index.html')
@@ -113,8 +115,20 @@ def genre_list(request):
 
 #     def get_queryset(self):
 #         return Book.objects.filter(content__iregex=self.request.GET.get('q'))
+@login_required
 def profile_view(request):
     return render(request, 'library_app/profile.html')
+
+def register_view(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('/')  
+    else:
+        form = SignUpForm()
+    return render(request, 'registration/register.html', {'form': form})
 
 def statistics(request):
     # Статистика за жанрами

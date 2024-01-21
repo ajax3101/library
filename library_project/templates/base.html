@@ -4,6 +4,7 @@
 <head>
     <!-- Bootstrap CSS -->
     <link href="{% static 'assets/css/bootstrap.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'assets/css/all.css' %}">
     <link rel="shortcut icon" type="image/png" href="{% static 'assets/img/favicon.ico' %}" >
     <!-- Add your custom CSS here -->
 
@@ -45,8 +46,8 @@
       </form>
 
       <div class="text-end">
-        <a class="btn btn-outline-light me-2" href="#">Login</a>
-        <a class="btn btn-warning" href="#">Sign-up</a>
+        <a class="btn btn-outline-light me-2" href="{% url 'library_app:profile' %}">Login</a>
+        <a class="btn btn-warning" href="{% url 'library_app:register_view' %}">Sign-up</a>
       </div>
 </nav>
 
@@ -58,6 +59,7 @@
 <script src="{% static 'assets/js/jquery.min.js' %}"></script>
 <script src="{% static 'assets/js/popper.min.js' %}"></script>
 <script src="{% static 'assets/js/bootstrap.js' %}"></script>
+<script src="{% static 'assets/js/bootstrap.bundle.min.js' %}"></script>
 <!-- Add your custom scripts here -->
 
 {% block extra_scripts %}{% endblock %}

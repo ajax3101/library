@@ -1,17 +1,14 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="{% static 'assets/css/profile.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/font-awesome.min.css' %}">
-    <script src="{% static 'assets/js/bootstrap.min.css' %}"></script>
-    <script src="{% static 'assets/js/jquery.min.js' %}"></script>
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
-</head>
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'assets/css/profile.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/fontawesome.min.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/bootstrap.css' %}">
+{% endblock %}
+{% block title %}Профіль -> {% endblock %}
+
+{% block content %}
 <body>
     <div class="container mt-5 d-flex justify-content-center">
 
@@ -25,8 +22,8 @@
 
             <div class="ml-3 w-100">
                 
-               <h4 class="mb-0 mt-0">Alex HMorrision</h4>
-               <span>Senior Journalist</span>
+               <h4 class="mb-0 mt-0">{{ user.username }}</h4>
+               <span>{{ user.first_name }} {{ user.last_name }}</span>
 
                <div class="p-2 mt-2 bg-primary d-flex justify-content-between rounded text-white stats">
 
@@ -56,10 +53,14 @@
 
 
                <div class="button mt-2 d-flex flex-row align-items-center">
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <!-- <button type="submit">Logout</button> -->
+                    <!-- <button class="btn btn-sm btn-outline-primary w-100">Chat</button> -->
+                <button class="btn btn-sm btn-primary w-100 ml-2" onclick="location.href='{% url 'logout' %}'">Вихід</button>
 
-                <button class="btn btn-sm btn-outline-primary w-100">Chat</button>
-                <button class="btn btn-sm btn-primary w-100 ml-2">Follow</button>
-
+                </form>
+                
                    
                </div>
 
@@ -73,4 +74,9 @@
          
      </div>
 </body>
-</html>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'assets/js/bootstrap.min.css' %}"></script>
+<script src="{% static 'assets/js/jquery.min.js' %}"></script>
+{% endblock %}
